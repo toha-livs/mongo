@@ -1,0 +1,29 @@
+{% extends 'mg_db/base.html' %}
+{% block content%}
+<div class="col-8 offset-2">
+    <form method="post">
+        {% csrf_token%}
+        <input class="form-control" placeholder="name" name="name">
+        {% if lang %}
+        <input class="form-control" name="meta_name" placeholder="meta_name">
+            <select class="form-control" name="is_default">
+                <option value="false" checked>False</option>
+            <option value="true">True</option>
+            </select>
+        {% endif %}
+        <button class="btn btn-warning" type="submit">save</button>
+    </form>
+</div>
+{% if lang %}
+<div class="col-6 offset-3">
+    <form action="{% url 'default-language' %}" method="post">{% csrf_token %}
+        <select class="form-control" name="def_lang">
+            {%  for lang in lang_all %}
+            <option value="{{ lang.id }}">{{ lang.name }}</option>
+            {% endfor %}
+        </select>
+    <button class="btn btn-primary">Set</button>
+    </form>
+</div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'mg_db/base.html' %}
+{% block content%}
+    <div class="col-12 mb-2">
+        <div class="row text-center">
+            <a class="col-1" href="{% url 'language' %}">add language</a>
+            <a class="col-1" href="{% url 'category' %}">add category</a>
+        </div>
+    </div>
+    <div class="col-4 offset-4 mb-1">
+        <form method="POST" action="{% url 'add-page' %}" class="post-form">{% csrf_token %}
+            <label>Add Page</label>
+            <select class="form-control mb-1" name="category">
+                {% for cat in categories %}
+                <option value="{{cat.id}}">{{cat.name}}</option>
+                {% endfor %}
+            </select>
+            <input class="form-control mb-1" name="title" placeholder="title">
+            <select class="form-control mb-1" name="language" placeholder="language">
+                {% for lang in languages %}
+                <option value="{{lang.id}}">{{lang.name}}</option>
+                {% endfor %}
+            </select>
+            <input class="form-control mb-1" name="url" placeholder="url">
+            <input class="form-control mb-1" name="content" placeholder="content">
+            <button class="btn btn-primary mb-5" type="submit">Save</button>
+        </form>
+    </div>
+    <div class="col-8 offset-1">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>title</th>
+                <th>link</th>
+                <th>add content</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for page in pages %}
+                <tr>
+                    <td>{{page.id}}</td>
+                    <td>{{page.title}}</td>
+                    <td><a href="/page/{{page.url}}/en/">view page </a></td>
+                    <td><a href="{% url 'add-content' page.id %}">add content</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

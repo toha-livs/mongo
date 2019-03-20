@@ -1,0 +1,50 @@
+{% extends 'mg_db/base.html' %}
+{% block content%}
+    <div class="col-4 offset-1">
+        <h2>Page info</h2>
+        <p>
+            <b>title:</b> {{page.title}}
+        </p>
+        <p>
+            <b>url:</b> {{page.url}}
+        </p>
+        <p>
+            <b>category:</b> {{page.category.name}}
+        </p>
+    </div>
+    <div class="col-4 offset-1">
+        <h2>Language available</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>name language</th>
+                    <th>content</th>
+                    <th>delete</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for added_leng in lang_added_list %}
+                <tr>
+                    <td>{{added_leng.language.name}}</td>
+                    <td>{{added_leng.content}}</td>
+                    <td><a href="{% url 'delete-lang-content' added_leng.id %}">delete</a></td>
+                </tr>
+        {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="col-8 offset-2">
+        <form method="post">
+            <h2>Add content</h2>
+            {% csrf_token %}
+            <select class="form-control" name="lang">
+                {% for lang in langs %}
+                <option value="{{lang.id}}">{{lang.name}}</option>
+                {% endfor %}
+            </select>
+            <input class="form-control" name="content">
+            <button class="btn btn-primary" type="submit">Add</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
